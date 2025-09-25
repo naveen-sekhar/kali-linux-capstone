@@ -76,6 +76,9 @@ sudo apt install -y nmap netcat arp-scan metasploit-framework
 
 Run all security assessments on a target:
 ```bash
+# Navigate to that particular directory
+cd sh-files
+
 # Run complete assessment on a single target
 sudo ./sh-files/test.sh <YOUR_TARGET_IP>
 
