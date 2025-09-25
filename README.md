@@ -16,6 +16,7 @@ A comprehensive security assessment toolkit that performs automated network scan
 kali-linux-capstone/
 ├── README.md                      # This file
 ├── index.html                     # Web dashboard for viewing reports
+├── index2.html                     # Web dashboard for hosting (Report data are embedded in the html. Will not update when the new report added)
 ├── sh-files/                      # Shell scripts directory
 │   ├── test.sh                    # Main integration script (runs all scans)
 │   ├── arp-scan.sh                # ARP network discovery script
