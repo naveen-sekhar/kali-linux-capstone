@@ -55,7 +55,17 @@ sudo apt install -y nmap netcat arp-scan metasploit-framework
    cd kali-linux-capstone
    ```
 
-2. **Make scripts executable**:
+2. **Convertion**:
+- Since the sh files are edited in windows, it will throw this following error :
+   ```bash
+   bad interpreter: /bin/bash^M: no such file or directory
+   ```
+ - Windows uses CRLF (\r\n) line endings. Linux expects LF (\n) only. The ^M is the extra \r (carriage return).
+ - The below command resolves this issue.
+   ```bash
+   sed -i 's/\r$//' sh-files/*.sh
+   ```
+3. **Make scripts executable**:
    ```bash
    chmod +x sh-files/*.sh
    ```
@@ -66,35 +76,38 @@ sudo apt install -y nmap netcat arp-scan metasploit-framework
 
 Run all security assessments on a target:
 ```bash
+# Navigate to that particular directory
+cd sh-files
+
 # Run complete assessment on a single target
-sudo ./sh-files/test.sh <YOUR_TARGET_IP>
+sudo ./test.sh <YOUR_TARGET_IP>
 
 # Run complete assessment on a network range
-sudo ./sh-files/test.sh 192.168.1.0/24
+sudo ./test.sh 192.168.1.0/24
 ```
 
 ### Option 2: Run Individual Scripts
 
 **ARP Network Discovery:**
 ```bash
-sudo ./sh-files/arp-scan.sh
+sudo ./arp-scan.sh
 ```
 
 **Network Reconnaissance:**
 ```bash
-sudo ./sh-files/ns.sh 192.168.1.100
+sudo ./ns.sh 192.168.1.100
 # or for network range
-sudo ./sh-files/ns.sh 192.168.1.0/24
+sudo ./ns.sh 192.168.1.0/24
 ```
 
 **Vulnerability Scanning:**
 ```bash
-sudo ./sh-files/vuln.sh 192.168.1.100
+sudo ./vuln.sh 192.168.1.100
 ```
 
 **Exploitation Analysis:**
 ```bash
-sudo ./sh-files/exploit.sh 192.168.1.100
+sudo ./exploit.sh 192.168.1.100
 ```
 
 ## 📊 Viewing Reports
