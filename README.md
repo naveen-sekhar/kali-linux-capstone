@@ -65,7 +65,7 @@ sudo apt install -y nmap netcat arp-scan metasploit-framework
    ```bash
    sed -i 's/\r$//' sh-files/*.sh
    ```
-4.  **Make scripts executable**:
+3. **Make scripts executable**:
    ```bash
    chmod +x sh-files/*.sh
    ```
