@@ -281,36 +281,20 @@
                 <button class="close-btn" onclick="toggleReport('exploit-report')">Close</button>
                 <div class="file-list">
                     <div class="file-item">
-                        <div class="file-name">Full Scan Report (13:41:56)</div>
-                        <button class="file-btn" onclick="loadExploitFile('full_scan_10.0.2.15_20250925_134156.txt')">View Full Scan</button>
+                        <div class="file-name">Full Scan Report</div>
+                        <button class="file-btn" onclick="loadExploitFile('full_scan_report.txt')">View Full Scan</button>
                     </div>
                     <div class="file-item">
-                        <div class="file-name">Full Scan Report (13:43:21)</div>
-                        <button class="file-btn" onclick="loadExploitFile('full_scan_10.0.2.15_20250925_134321.txt')">View Full Scan</button>
+                        <div class="file-name">Reconnaissance Report</div>
+                        <button class="file-btn" onclick="loadExploitFile('recon_report.txt')">View Recon</button>
                     </div>
                     <div class="file-item">
-                        <div class="file-name">Reconnaissance Report (13:41:56)</div>
-                        <button class="file-btn" onclick="loadExploitFile('recon_10.0.2.15_20250925_134156.txt')">View Recon</button>
+                        <div class="file-name">Metasploit Output</div>
+                        <button class="file-btn" onclick="loadExploitFile('msf_output_report.txt')">View MSF Output</button>
                     </div>
                     <div class="file-item">
-                        <div class="file-name">Reconnaissance Report (13:43:21)</div>
-                        <button class="file-btn" onclick="loadExploitFile('recon_10.0.2.15_20250925_134321.txt')">View Recon</button>
-                    </div>
-                    <div class="file-item">
-                        <div class="file-name">Metasploit Output (13:41:56)</div>
-                        <button class="file-btn" onclick="loadExploitFile('msf_output_10.0.2.15_20250925_134156.txt')">View MSF Output</button>
-                    </div>
-                    <div class="file-item">
-                        <div class="file-name">Metasploit Output (13:43:21)</div>
-                        <button class="file-btn" onclick="loadExploitFile('msf_output_10.0.2.15_20250925_134321.txt')">View MSF Output</button>
-                    </div>
-                    <div class="file-item">
-                        <div class="file-name">Auto Exploit Script (13:41:56)</div>
-                        <button class="file-btn" onclick="loadExploitFile('auto_exploit_10.0.2.15_20250925_134156.rc')">View Script</button>
-                    </div>
-                    <div class="file-item">
-                        <div class="file-name">Auto Exploit Script (13:43:21)</div>
-                        <button class="file-btn" onclick="loadExploitFile('auto_exploit_10.0.2.15_20250925_134321.rc')">View Script</button>
+                        <div class="file-name">Auto Exploit Script</div>
+                        <button class="file-btn" onclick="loadExploitFile('auto_exploit_script.rc')">View Script</button>
                     </div>
                 </div>
                 <div id="exploit-file-content" style="display:none; margin-top: 1rem;">
@@ -357,13 +341,13 @@
             let filePath = '';
             switch(reportId) {
                 case 'arp-report':
-                    filePath = 'reports/arp_scan_2025-09-25-134313.txt';
+                    filePath = 'reports/arp_scan_report.txt';
                     break;
                 case 'network-report':
-                    filePath = 'reports/network_scan_and_recon.txt';
+                    filePath = 'reports/network_scan_report.txt';
                     break;
                 case 'vuln-report':
-                    filePath = 'reports/vuln_scan_report_10.0.2.15_20250925_134431.txt';
+                    filePath = 'reports/vuln_scan_report.txt';
                     break;
                 default:
                     contentElement.textContent = 'Unknown report type.';
