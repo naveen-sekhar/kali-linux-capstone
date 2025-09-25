@@ -55,7 +55,17 @@ sudo apt install -y nmap netcat arp-scan metasploit-framework
    cd kali-linux-capstone
    ```
 
-2. **Make scripts executable**:
+2. **Convertion**:
+- Since the sh files are edited in windows, it will throw this following error :
+   ```bash
+   bad interpreter: /bin/bash^M: no such file or directory
+   ```
+ - Windows uses CRLF (\r\n) line endings. Linux expects LF (\n) only. The ^M is the extra \r (carriage return).
+ - The below command resolves this issue.
+   ```bash
+   sed -i 's/\r$//' sh-files/*.sh
+   ```
+4.  **Make scripts executable**:
    ```bash
    chmod +x sh-files/*.sh
    ```
