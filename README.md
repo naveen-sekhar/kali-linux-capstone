@@ -44,25 +44,19 @@ sudo apt install -y nmap netcat arp-scan metasploit-framework
 
 ### For Web Dashboard
 - Python 3.x (for local HTTP server)
-- Modern web browser
 - Network access to target systems
 
 ## ⚙️ Installation
 
 1. **Clone or download the project files**:
    ```bash
-   git clone <repository-url>
-   cd capstone
+   git clone https://github.com/naveen-sekhar/kali-linux-capstone.git
+   cd kali-linux-capstone
    ```
 
 2. **Make scripts executable**:
    ```bash
    chmod +x sh-files/*.sh
-   ```
-
-3. **Create reports directory** (auto-created by scripts):
-   ```bash
-   mkdir -p reports/exploit
    ```
 
 ## 🚀 Usage
@@ -72,7 +66,7 @@ sudo apt install -y nmap netcat arp-scan metasploit-framework
 Run all security assessments on a target:
 ```bash
 # Run complete assessment on a single target
-sudo ./sh-files/test.sh 192.168.1.100
+sudo ./sh-files/test.sh <YOUR_TARGET_IP>
 
 # Run complete assessment on a network range
 sudo ./sh-files/test.sh 192.168.1.0/24
@@ -87,19 +81,19 @@ sudo ./sh-files/arp-scan.sh
 
 **Network Reconnaissance:**
 ```bash
-./sh-files/ns.sh 192.168.1.100
+sudo ./sh-files/ns.sh 192.168.1.100
 # or for network range
-./sh-files/ns.sh 192.168.1.0/24
+sudo ./sh-files/ns.sh 192.168.1.0/24
 ```
 
 **Vulnerability Scanning:**
 ```bash
-./sh-files/vuln.sh 192.168.1.100
+sudo ./sh-files/vuln.sh 192.168.1.100
 ```
 
 **Exploitation Analysis:**
 ```bash
-./sh-files/exploit.sh 192.168.1.100
+sudo ./sh-files/exploit.sh 192.168.1.100
 ```
 
 ## 📊 Viewing Reports
@@ -168,27 +162,27 @@ EOF
 
 ## 📝 Script Details
 
-### sh-files/test.sh
+### test.sh
 - **Purpose**: Integration script that runs all security assessments
 - **Usage**: `sudo ./sh-files/test.sh <target>`
 - **Output**: Executes all individual scripts in sequence
 
-### sh-files/arp-scan.sh
+### arp-scan.sh
 - **Purpose**: Discovers active hosts on local network using ARP
 - **Requirements**: Root privileges, arp-scan tool
 - **Output**: `reports/arp_scan_report.txt`
 
-### sh-files/ns.sh
+### ns.sh
 - **Purpose**: Comprehensive network reconnaissance
 - **Features**: Ping sweep, TCP/UDP port scans, OS detection, service enumeration, banner grabbing
 - **Output**: `reports/network_scan_report.txt`
 
-### sh-files/vuln.sh
+### vuln.sh
 - **Purpose**: Vulnerability assessment using Nmap scripts
 - **Features**: Port scanning, service detection, vulnerability scripts, HTTP vulnerability checks
 - **Output**: `reports/vuln_scan_report.txt`
 
-### sh-files/exploit.sh
+### exploit.sh
 - **Purpose**: Automated exploitation attempts using Metasploit
 - **Features**: Service reconnaissance, automatic exploit generation, Metasploit execution
 - **Output**: Multiple files in `reports/exploit/` directory
@@ -220,6 +214,7 @@ EOF
 
 3. **Web dashboard not loading**:
    - Ensure Python HTTP server is running
+   - Check whether you start the server in the project directory
    - Check if port 8000 is available
    - Try alternative port: `python3 -m http.server 8080`
 
@@ -254,5 +249,5 @@ This project is for educational use only. Please ensure compliance with local la
 
 ---
 
-**Created for Capstone Project - Network Security Assessment**  
+**Created for Semester-5 Capstone Project - Network Security Assessment**  
 *Date: September 25, 2025*
