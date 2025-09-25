@@ -1,0 +1,55 @@
+===================================
+ Starting Vulnerability Scan
+ Target: 10.0.2.15
+ Date: Thursday 25 September 2025 01:44:31 PM IST
+===================================
+
+[+] Running Port Scan...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap done: 1 IP address (1 host up) scanned in 5.96 seconds
+
+[+] Detecting Service Versions...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.0000040s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 5.99 seconds
+
+[+] Detecting Operating System...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.000047s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 0 hops
+
+OS detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.25 seconds
+
+[+] Running Vulnerability Scan with Nmap Scripts...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.0000030s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+
+Nmap done: 1 IP address (1 host up) scanned in 15.94 seconds
+
+[+] Checking for HTTP vulnerabilities...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:45 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.000026s latency).
+
+PORT    STATE  SERVICE
+80/tcp  closed http
+443/tcp closed https
+
+Nmap done: 1 IP address (1 host up) scanned in 5.91 seconds
+
+===================================
+ Vulnerability Scan Completed
+===================================

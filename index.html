@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Assessment Reports</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .report-section {
+            background: white;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .report-section:hover {
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .section-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.3rem;
+        }
+
+        .view-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .view-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        .report-content {
+            display: none;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-top: 3px solid #3498db;
+        }
+
+        .report-content.active {
+            display: block;
+        }
+
+        .report-text {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid #34495e;
+        }
+
+        .exploit-section {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .network-section {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+
+        .vuln-section {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .arp-section {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .close-btn {
+            float: right;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .close-btn:hover {
+            background: #c0392b;
+        }
+
+        .timestamp {
+            color: #7f8c8d;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .file-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .file-btn:hover {
+            background: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Capstone Project</h1>
+            <ul style="list-style: none; padding: 0; margin: 1rem 0; font-size: 1.1rem;">
+                <li style="margin: 0.3rem 0;">• Network Scanning and Reconnaissance</li>
+                <li style="margin: 0.3rem 0;">• Vulnerability Assessment</li>
+                <li style="margin: 0.3rem 0;">• Analyse Exploitation</li>
+                <li style="margin: 0.3rem 0;">• ARP Scan</li>
+            </ul>
+            <div class="timestamp">Generated: September 25, 2025</div>
+        </header>
+
+        <!-- ARP Scan Report -->
+        <div class="report-section">
+            <div class="section-header arp-section">
+                <div>
+                    <div class="section-title">🔍 ARP Network Discovery</div>
+                    <div class="section-description">Network host discovery using ARP scanning</div>
+                </div>
+                <button class="view-btn" onclick="toggleReport('arp-report')">View Report</button>
+            </div>
+            <div id="arp-report" class="report-content">
+                <button class="close-btn" onclick="toggleReport('arp-report')">Close</button>
+                <div class="report-text" id="arp-content">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Network Scan Report -->
+        <div class="report-section">
+            <div class="section-header network-section">
+                <div>
+                    <div class="section-title">🌐 Network Reconnaissance</div>
+                    <div class="section-description">Comprehensive network scanning and service enumeration</div>
+                </div>
+                <button class="view-btn" onclick="toggleReport('network-report')">View Report</button>
+            </div>
+            <div id="network-report" class="report-content">
+                <button class="close-btn" onclick="toggleReport('network-report')">Close</button>
+                <div class="report-text" id="network-content">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Vulnerability Scan Report -->
+        <div class="report-section">
+            <div class="section-header vuln-section">
+                <div>
+                    <div class="section-title">⚠️ Vulnerability Assessment</div>
+                    <div class="section-description">Security vulnerability scanning and analysis</div>
+                </div>
+                <button class="view-btn" onclick="toggleReport('vuln-report')">View Report</button>
+            </div>
+            <div id="vuln-report" class="report-content">
+                <button class="close-btn" onclick="toggleReport('vuln-report')">Close</button>
+                <div class="report-text" id="vuln-content">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Exploit Reports -->
+        <div class="report-section">
+            <div class="section-header exploit-section">
+                <div>
+                    <div class="section-title">💥 Exploitation Attempts</div>
+                    <div class="section-description">Metasploit exploitation reports and analysis</div>
+                </div>
+                <button class="view-btn" onclick="toggleReport('exploit-report')">View Reports</button>
+            </div>
+            <div id="exploit-report" class="report-content">
+                <button class="close-btn" onclick="toggleReport('exploit-report')">Close</button>
+                <div class="file-list">
+                    <div class="file-item">
+                        <div class="file-name">Full Scan Report (13:41:56)</div>
+                        <button class="file-btn" onclick="loadExploitFile('full_scan_10.0.2.15_20250925_134156.txt')">View Full Scan</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Full Scan Report (13:43:21)</div>
+                        <button class="file-btn" onclick="loadExploitFile('full_scan_10.0.2.15_20250925_134321.txt')">View Full Scan</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Reconnaissance Report (13:41:56)</div>
+                        <button class="file-btn" onclick="loadExploitFile('recon_10.0.2.15_20250925_134156.txt')">View Recon</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Reconnaissance Report (13:43:21)</div>
+                        <button class="file-btn" onclick="loadExploitFile('recon_10.0.2.15_20250925_134321.txt')">View Recon</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Metasploit Output (13:41:56)</div>
+                        <button class="file-btn" onclick="loadExploitFile('msf_output_10.0.2.15_20250925_134156.txt')">View MSF Output</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Metasploit Output (13:43:21)</div>
+                        <button class="file-btn" onclick="loadExploitFile('msf_output_10.0.2.15_20250925_134321.txt')">View MSF Output</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Auto Exploit Script (13:41:56)</div>
+                        <button class="file-btn" onclick="loadExploitFile('auto_exploit_10.0.2.15_20250925_134156.rc')">View Script</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Auto Exploit Script (13:43:21)</div>
+                        <button class="file-btn" onclick="loadExploitFile('auto_exploit_10.0.2.15_20250925_134321.rc')">View Script</button>
+                    </div>
+                </div>
+                <div id="exploit-file-content" style="display:none; margin-top: 1rem;">
+                    <h3 id="exploit-file-title"></h3>
+                    <div class="report-text" id="exploit-content">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cache to store loaded report contents
+        const reportCache = {};
+
+        function toggleReport(reportId) {
+            const reportElement = document.getElementById(reportId);
+            const isActive = reportElement.classList.contains('active');
+            
+            // Close all other reports
+            document.querySelectorAll('.report-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            if (!isActive) {
+                reportElement.classList.add('active');
+                loadReportContent(reportId);
+                scrollToReport(reportId);
+            }
+        }
+
+        async function loadReportContent(reportId) {
+            const contentElement = document.getElementById(reportId.replace('-report', '-content'));
+            
+            // Check cache first
+            if (reportCache[reportId]) {
+                contentElement.textContent = reportCache[reportId];
+                return;
+            }
+
+            // Show loading message
+            contentElement.textContent = 'Loading report...';
+            
+            // Determine the file path based on report ID
+            let filePath = '';
+            switch(reportId) {
+                case 'arp-report':
+                    filePath = 'reports/arp_scan_2025-09-25-134313.txt';
+                    break;
+                case 'network-report':
+                    filePath = 'reports/network_scan_and_recon.txt';
+                    break;
+                case 'vuln-report':
+                    filePath = 'reports/vuln_scan_report_10.0.2.15_20250925_134431.txt';
+                    break;
+                default:
+                    contentElement.textContent = 'Unknown report type.';
+                    return;
+            }
+
+            try {
+                const response = await fetch(filePath);
+                if (response.ok) {
+                    const content = await response.text();
+                    reportCache[reportId] = content; // Cache the content
+                    contentElement.textContent = content;
+                } else {
+                    const errorMsg = `Error loading report: ${response.status} ${response.statusText}
+                    
+Make sure the HTML file is served via HTTP/HTTPS or use a local server.
+File path: ${filePath}`;
+                    contentElement.textContent = errorMsg;
+                }
+            } catch (error) {
+                const errorMsg = `Failed to load report: ${error.message}
+
+Possible solutions:
+1. Start a local HTTP server (e.g., python -m http.server)
+2. Use VS Code Live Server extension
+3. Serve files via a web server
+
+File path: ${filePath}`;
+                contentElement.textContent = errorMsg;
+            }
+        }
+
+        async function loadExploitFile(filename) {
+            const contentElement = document.getElementById('exploit-content');
+            const titleElement = document.getElementById('exploit-file-title');
+            const fileContentDiv = document.getElementById('exploit-file-content');
+            
+            titleElement.textContent = filename;
+            fileContentDiv.style.display = 'block';
+            
+            // Check cache first
+            if (reportCache[filename]) {
+                contentElement.textContent = reportCache[filename];
+                fileContentDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+            }
+
+            // Show loading message
+            contentElement.textContent = 'Loading file...';
+            
+            const filePath = `reports/exploit/${filename}`;
+            
+            try {
+                const response = await fetch(filePath);
+                if (response.ok) {
+                    const content = await response.text();
+                    reportCache[filename] = content; // Cache the content
+                    contentElement.textContent = content;
+                } else {
+                    const errorMsg = `Error loading file: ${response.status} ${response.statusText}
+                    
+Make sure the HTML file is served via HTTP/HTTPS or use a local server.
+File path: ${filePath}`;
+                    contentElement.textContent = errorMsg;
+                }
+            } catch (error) {
+                const errorMsg = `Failed to load file: ${error.message}
+
+Possible solutions:
+1. Start a local HTTP server (e.g., python -m http.server)
+2. Use VS Code Live Server extension
+3. Serve files via a web server
+
+File path: ${filePath}`;
+                contentElement.textContent = errorMsg;
+            }
+            
+            // Scroll to the content
+            fileContentDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Add smooth scrolling to report sections when opened
+        function scrollToReport(reportId) {
+            const reportElement = document.getElementById(reportId);
+            setTimeout(() => {
+                reportElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    </script>
+</body>
+</html>

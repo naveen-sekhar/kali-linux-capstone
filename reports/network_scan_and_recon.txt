@@ -1,0 +1,128 @@
+=== NS Recon Script ===
+Target: 10.0.2.15
+Timestamp: Thu, 25 Sep 2025 13:43:43 +0530
+
+------------------------------------------------------------
+>>> Experiment 1: Ping Sweep of subnet 10.0.2.0/24
+Command: nmap -sn "10.0.2.0/24"
+Start: Thu, 25 Sep 2025 13:43:43 +0530
+
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:43 IST
+Nmap scan report for 10.0.2.2
+Host is up (0.00029s latency).
+MAC Address: 52:55:0A:00:02:02 (Unknown)
+Nmap scan report for 10.0.2.3
+Host is up (0.00039s latency).
+MAC Address: 52:55:0A:00:02:03 (Unknown)
+Nmap scan report for 10.0.2.15
+Host is up.
+Nmap done: 256 IP addresses (3 hosts up) scanned in 13.11 seconds
+
+End: Thu, 25 Sep 2025 13:43:56 +0530
+
+------------------------------------------------------------
+>>> Experiment 2: TCP Port Scan of 10.0.2.15
+Command: nmap -sT -p- --min-rate 1000 "10.0.2.15"
+Start: Thu, 25 Sep 2025 13:43:56 +0530
+
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:43 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.000027s latency).
+All 65535 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 65535 closed tcp ports (conn-refused)
+
+Nmap done: 1 IP address (1 host up) scanned in 6.09 seconds
+
+End: Thu, 25 Sep 2025 13:44:02 +0530
+
+------------------------------------------------------------
+>>> Experiment 3: UDP Port Scan of 10.0.2.15 (top 200 UDP ports; may be slow)
+Command: nmap -sU --top-ports 200 "10.0.2.15" -oG -
+Start: Thu, 25 Sep 2025 13:44:02 +0530
+
+# Nmap 7.95 scan initiated Thu Sep 25 13:44:02 2025 as: /usr/lib/nmap/nmap --privileged -sU --top-ports 200 -oG - 10.0.2.15
+Host: 10.0.2.15 ()	Status: Up
+Host: 10.0.2.15 ()	Ports: 	Ignored State: closed (200)
+# Nmap done at Thu Sep 25 13:44:08 2025 -- 1 IP address (1 host up) scanned in 5.99 seconds
+
+End: Thu, 25 Sep 2025 13:44:08 +0530
+
+[notice] OS detection (-O) usually requires root. Attempting it but results may be limited.
+------------------------------------------------------------
+>>> Experiment 4: OS Detection of 10.0.2.15 (non-root attempt)
+Command: nmap -O "10.0.2.15"
+Start: Thu, 25 Sep 2025 13:44:08 +0530
+
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.000073s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 0 hops
+
+OS detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.27 seconds
+
+End: Thu, 25 Sep 2025 13:44:16 +0530
+
+------------------------------------------------------------
+>>> Experiment 5: Service Version Detection of 10.0.2.15
+Command: nmap -sV "10.0.2.15"
+Start: Thu, 25 Sep 2025 13:44:16 +0530
+
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.0000010s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 5.84 seconds
+
+End: Thu, 25 Sep 2025 13:44:22 +0530
+
+------------------------------------------------------------
+>>> Experiment 6: Banner Grabbing (netcat)
+Start: Thu, 25 Sep 2025 13:44:22 +0530
+
+--- Banner grabbing 10.0.2.15:22 ---
+(UNKNOWN) [10.0.2.15] 22 (ssh) : Connection refused
+[note] no banner or connection refused on port 22
+
+--- Banner grabbing 10.0.2.15:21 ---
+(UNKNOWN) [10.0.2.15] 21 (ftp) : Connection refused
+[note] no banner or connection refused on port 21
+
+--- Banner grabbing 10.0.2.15:25 ---
+(UNKNOWN) [10.0.2.15] 25 (smtp) : Connection refused
+[note] no banner or connection refused on port 25
+
+--- Banner grabbing 10.0.2.15:80 ---
+(UNKNOWN) [10.0.2.15] 80 (http) : Connection refused
+[note] no banner or connection refused on port 80
+
+--- Banner grabbing 10.0.2.15:110 ---
+(UNKNOWN) [10.0.2.15] 110 (pop3) : Connection refused
+[note] no banner or connection refused on port 110
+
+--- Banner grabbing 10.0.2.15:143 ---
+(UNKNOWN) [10.0.2.15] 143 (imap2) : Connection refused
+[note] no banner or connection refused on port 143
+
+--- Banner grabbing 10.0.2.15:443 ---
+(UNKNOWN) [10.0.2.15] 443 (https) : Connection refused
+[note] no banner or connection refused on port 443
+
+--- Banner grabbing 10.0.2.15:3306 ---
+(UNKNOWN) [10.0.2.15] 3306 (mysql) : Connection refused
+[note] no banner or connection refused on port 3306
+
+--- Banner grabbing 10.0.2.15:3389 ---
+(UNKNOWN) [10.0.2.15] 3389 (ms-wbt-server) : Connection refused
+[note] no banner or connection refused on port 3389
+
+End: Thu, 25 Sep 2025 13:44:22 +0530
+
+All experiments complete. Results saved in: results_10.0.2.15_20250925_134343.txt
+Note: Some nmap options (e.g., -sS, -O) may require root privileges to be fully effective.

