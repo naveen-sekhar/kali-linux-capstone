@@ -126,16 +126,16 @@ sudo ./sh-files/exploit.sh 192.168.1.100
 View reports directly from terminal:
 ```bash
 # View ARP scan results
-cat reports/arp_scan_report.txt
+cat sh-files/reports/arp_scan_report.txt
 
 # View network scan results
-cat reports/network_scan_report.txt
+cat sh-files/reports/network_scan_report.txt
 
 # View vulnerability scan results
-cat reports/vuln_scan_report.txt
+cat sh-files/reports/vuln_scan_report.txt
 
 # View exploitation results
-cat reports/exploit/full_scan_report.txt
+cat sh-files/reports/exploit/full_scan_report.txt
 ```
 
 ## 🔧 Configuration
@@ -171,22 +171,22 @@ EOF
 ### arp-scan.sh
 - **Purpose**: Discovers active hosts on local network using ARP
 - **Requirements**: Root privileges, arp-scan tool
-- **Output**: `reports/arp_scan_report.txt`
+- **Output**: `sh-files/reports/arp_scan_report.txt`
 
 ### ns.sh
 - **Purpose**: Comprehensive network reconnaissance
 - **Features**: Ping sweep, TCP/UDP port scans, OS detection, service enumeration, banner grabbing
-- **Output**: `reports/network_scan_report.txt`
+- **Output**: `sh-files/reports/network_scan_report.txt`
 
 ### vuln.sh
 - **Purpose**: Vulnerability assessment using Nmap scripts
 - **Features**: Port scanning, service detection, vulnerability scripts, HTTP vulnerability checks
-- **Output**: `reports/vuln_scan_report.txt`
+- **Output**: `sh-files/reports/vuln_scan_report.txt`
 
 ### exploit.sh
 - **Purpose**: Automated exploitation attempts using Metasploit
 - **Features**: Service reconnaissance, automatic exploit generation, Metasploit execution
-- **Output**: Multiple files in `reports/exploit/` directory
+- **Output**: Multiple files in `sh-files/reports/exploit/` directory
 
 ## 🔒 Important Security Notes
 

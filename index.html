@@ -341,13 +341,13 @@
             let filePath = '';
             switch(reportId) {
                 case 'arp-report':
-                    filePath = 'reports/arp_scan_report.txt';
+                    filePath = 'sh-files/reports/arp_scan_report.txt';
                     break;
                 case 'network-report':
-                    filePath = 'reports/network_scan_report.txt';
+                    filePath = 'sh-files/reports/network_scan_report.txt';
                     break;
                 case 'vuln-report':
-                    filePath = 'reports/vuln_scan_report.txt';
+                    filePath = 'sh-files/reports/vuln_scan_report.txt';
                     break;
                 default:
                     contentElement.textContent = 'Unknown report type.';
@@ -398,7 +398,7 @@ File path: ${filePath}`;
             // Show loading message
             contentElement.textContent = 'Loading file...';
             
-            const filePath = `reports/exploit/${filename}`;
+            const filePath = `sh-files/reports/exploit/${filename}`;
             
             try {
                 const response = await fetch(filePath);
