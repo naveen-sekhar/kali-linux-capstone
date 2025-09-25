@@ -80,34 +80,34 @@ Run all security assessments on a target:
 cd sh-files
 
 # Run complete assessment on a single target
-sudo ./sh-files/test.sh <YOUR_TARGET_IP>
+sudo ./test.sh <YOUR_TARGET_IP>
 
 # Run complete assessment on a network range
-sudo ./sh-files/test.sh 192.168.1.0/24
+sudo ./test.sh 192.168.1.0/24
 ```
 
 ### Option 2: Run Individual Scripts
 
 **ARP Network Discovery:**
 ```bash
-sudo ./sh-files/arp-scan.sh
+sudo ./arp-scan.sh
 ```
 
 **Network Reconnaissance:**
 ```bash
-sudo ./sh-files/ns.sh 192.168.1.100
+sudo ./ns.sh 192.168.1.100
 # or for network range
-sudo ./sh-files/ns.sh 192.168.1.0/24
+sudo ./ns.sh 192.168.1.0/24
 ```
 
 **Vulnerability Scanning:**
 ```bash
-sudo ./sh-files/vuln.sh 192.168.1.100
+sudo ./vuln.sh 192.168.1.100
 ```
 
 **Exploitation Analysis:**
 ```bash
-sudo ./sh-files/exploit.sh 192.168.1.100
+sudo ./exploit.sh 192.168.1.100
 ```
 
 ## 📊 Viewing Reports
