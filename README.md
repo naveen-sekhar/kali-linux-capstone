@@ -13,7 +13,7 @@ A comprehensive security assessment toolkit that performs automated network scan
 ## 📁 Directory Structure
 
 ```
-capstone/
+kali-linux-capstone/
 ├── README.md                      # This file
 ├── index.html                     # Web dashboard for viewing reports
 ├── sh-files/                      # Shell scripts directory
