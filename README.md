@@ -76,7 +76,7 @@ sudo apt install -y nmap netcat arp-scan metasploit-framework
 
 Run all security assessments on a target:
 ```bash
-# Navigate to that particular directory
+# Navigate to scripts files(sh-files/) directory
 cd sh-files
 
 # Run complete assessment on a single target
@@ -116,6 +116,9 @@ sudo ./exploit.sh 192.168.1.100
 
 1. **Start Python HTTP server** in the project directory:
    ```bash
+   #Navigate back to the Home directory
+   cd ..
+   
    # Python 3
    python3 -m http.server 8000
    
@@ -125,7 +128,7 @@ sudo ./exploit.sh 192.168.1.100
 
 2. **Open web browser** and navigate to:
    ```
-   http://localhost:8000
+   http://localhost:8000/index.html
    ```
 
 3. **View reports** by clicking on the respective sections:
